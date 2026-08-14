@@ -657,7 +657,14 @@ function ProductsPage({ language, onToggle }) {
       <main className="directory-main">
         <section className="directory-hero">
           <div><p className="eyebrow">{language === "zh" ? "发现产品" : "DISCOVER PRODUCTS"}</p><h1>{language === "zh" ? "来自现在与过往发布的好产品。" : "Good tools from active and past launches."}</h1><p>{language === "zh" ? "探索由真实创作者打造的独立产品。搜索你需要的工具，或按类别寻找下一个灵感。" : "Explore independent products made by real makers. Search what you need, or browse by the category that fits your next idea."}</p></div>
-          <div className="directory-stat"><span>{language === "zh" ? "本周新品" : "NEW THIS WEEK"}</span><strong>48</strong><p>{language === "zh" ? "值得进一步了解的新产品" : "fresh products worth a closer look"}</p></div>
+          <div className="directory-hero-actions">
+            <div className="directory-stat"><span>{language === "zh" ? "本周新品" : "NEW THIS WEEK"}</span><strong>48</strong><p>{language === "zh" ? "值得进一步了解的新产品" : "fresh products worth a closer look"}</p></div>
+            <a className="directory-ranking-entry" href="/weekly-launch" aria-label={language === "zh" ? "查看产品排行榜" : "View product rankings"}>
+              <span className="directory-ranking-icon"><TrendUp weight="bold" /></span>
+              <span className="directory-ranking-copy"><span>{language === "zh" ? "热门榜单" : "TRENDING NOW"}</span><strong>{language === "zh" ? "产品排行榜" : "Product rankings"}</strong><small>{language === "zh" ? "查看本周最受支持的产品" : "See the products makers support most"}</small></span>
+              <ArrowRight className="directory-ranking-arrow" />
+            </a>
+          </div>
         </section>
 
         <section className="directory-layout" aria-label={language === "zh" ? "产品目录" : "Product directory"}>
