@@ -50,6 +50,7 @@ import {
   VideoCamera,
 } from "@phosphor-icons/react";
 import firstRevenueShowcase from "./assets/firstrevenue-app-showcase.png";
+import cloudNotesShowcase from "./assets/cloud-notes-showcase.png";
 import firstRevenueMark from "./assets/firstrevenue-mark.jpg";
 import founderAvatar from "./assets/sebastian-avatar.jpg";
 import makerFeaturedImage from "./assets/maker-journal-featured.png";
@@ -1101,6 +1102,10 @@ function ProductDetail({ language, onToggle, productSlug = "firstrevenue" }) {
     founderRoleZh: "首笔营收创始人",
   };
   const displayName = productLabel(detail.name, language);
+  const showcaseImage = isCloudNotes ? cloudNotesShowcase : firstRevenueShowcase;
+  const showcaseAlt = isCloudNotes
+    ? (isChinese ? "观云笔记中文 Web 产品介绍图，展示写作、整理与搜索功能" : "Cloud Notes web app showcase showing writing, organization, and search")
+    : (isChinese ? `${displayName} 的 Web 产品界面，展示课程、行动目标与进度` : `${detail.name} web app screens showing lessons, action goals, and progress`);
   const activeSeries = series === "visits" ? trafficPerformance : performance;
   const data = range === "Last 7 days" ? activeSeries.slice(-7) : activeSeries;
   const chartData = data.map((point) => ({ ...point, day: shortDateLabel(point.day, language) }));
@@ -1189,7 +1194,7 @@ function ProductDetail({ language, onToggle, productSlug = "firstrevenue" }) {
 
         <section className="showcase-section" aria-labelledby="showcase-title">
           <div className="detail-section-heading"><div><p className="section-kicker">{isChinese ? "产品预览" : "PRODUCT PREVIEW"}</p><h2 id="showcase-title">{isChinese ? "查看产品" : "See the product"}</h2></div><a href={detail.url} target="_blank" rel="noreferrer">{detail.url.replace("https://", "")} <ArrowSquareOut /></a></div>
-          <img src={firstRevenueShowcase} alt={isChinese ? `${displayName} 的 Web 产品界面，展示课程、行动目标与进度` : `${detail.name} web app screens showing lessons, action goals, and progress`} className="product-showcase" />
+          <img src={showcaseImage} alt={showcaseAlt} className="product-showcase" />
         </section>
 
         <section className="founder-message" aria-labelledby="founder-title">
