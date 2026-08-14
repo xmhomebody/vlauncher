@@ -229,17 +229,17 @@ main { padding-bottom: 0; }
 /* Product directory sorting and metric filters */
 .directory-filter-bar { display: flex; align-items: stretch; flex-wrap: wrap; gap: 8px; margin-top: 13px; padding: 10px; border: 1px solid #e0e6ef; border-radius: 10px; background: #fbfcff; }
 .directory-filter-intro { min-width: 126px; display: flex; flex-direction: column; justify-content: center; padding: 0 5px; }
-.directory-filter-intro strong { color: #43516a; font-size: 10px; letter-spacing: .04em; }
-.directory-filter-intro span { margin-top: 3px; color: #9aa5b5; font-size: 9px; }
+.directory-filter-intro strong { color: #43516a; font-size: 12px; font-weight: 400; letter-spacing: 0; }
+.directory-filter-intro span { margin-top: 3px; color: #9aa5b5; font-size: 12px; font-weight: 400; }
 .directory-filter-control { min-width: 145px; display: flex; flex: 1 1 145px; flex-direction: column; gap: 4px; }
-.directory-filter-control > span { color: #8995a7; font-size: 9px; font-weight: 740; }
-.directory-filter-control select, .directory-sort-control select { min-width: 0; height: 31px; padding: 0 25px 0 9px; border: 1px solid #dfe5ef; border-radius: 6px; outline: 0; color: #4e5c73; background: #fff; font: inherit; font-size: 10px; cursor: pointer; }
+.directory-filter-control > span { color: #8995a7; font-size: 12px; font-weight: 400; }
+.directory-filter-control select, .directory-sort-control select { min-width: 0; height: 31px; padding: 0 25px 0 9px; border: 1px solid #dfe5ef; border-radius: 6px; outline: 0; color: #4e5c73; background: #fff; font: inherit; font-size: 12px; font-weight: 400; cursor: pointer; }
 .directory-filter-control select:focus, .directory-sort-control select:focus { border-color: #9eb3ff; box-shadow: 0 0 0 3px rgba(39,88,238,.08); }
-.directory-filter-reset { align-self: flex-end; height: 31px; padding: 0 8px; border: 0; border-radius: 6px; color: #2758ee; background: transparent; font-size: 10px; font-weight: 760; white-space: nowrap; }
+.directory-filter-reset { align-self: flex-end; height: 31px; padding: 0 8px; border: 0; border-radius: 6px; color: #2758ee; background: transparent; font-size: 12px; font-weight: 400; white-space: nowrap; }
 .directory-filter-reset:hover { background: #edf2ff; }
-.directory-sort-control { position: relative; display: inline-flex; align-items: center; gap: 6px; color: #7c899c; font-size: 11px; }
+.directory-sort-control { position: relative; display: inline-flex; align-items: center; gap: 6px; color: #7c899c; font-size: 12px; font-weight: 400; }
 .directory-sort-control > span { white-space: nowrap; }
-.directory-sort-control select { height: 29px; padding-left: 8px; color: #53627a; font-size: 11px; font-weight: 700; }
+.directory-sort-control select { height: 29px; padding-left: 8px; color: #53627a; font-size: 12px; font-weight: 400; }
 .directory-sort-control > svg { position: absolute; right: 7px; width: 12px; height: 12px; color: #73819a; pointer-events: none; }
 .directory-product-signals { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; color: #8b96a7; font-size: 9px; }
 .directory-product-signals span { display: inline-flex; align-items: center; gap: 3px; }
