@@ -222,6 +222,81 @@ const directoryProducts = [
   { name: "Paper Critters", description: "A safe 3D paper-toy studio where kids can make creative little worlds for free.", creator: "jr.fabito", replies: 8, votes: 28, tags: ["3D & AR/VR", "Design Tools"], Icon: Leaf, tone: "green" },
 ];
 
+const productRankingDimensions = [
+  {
+    id: "best",
+    icon: Sparkle,
+    tone: "violet",
+    title: "Best products",
+    titleZh: "最佳产品排行",
+    description: "The products with the strongest blend of support, clarity, and momentum.",
+    descriptionZh: "综合支持度、产品表达与增长势能，选出本周最值得关注的产品。",
+    metric: "Overall score",
+    metricZh: "综合评分",
+    entries: [
+      ["Cloud Notes", "96", "+18%", "support score", "支持度"],
+      ["FirstRevenue", "92", "+14%", "support score", "支持度"],
+      ["ORBII", "88", "+11%", "support score", "支持度"],
+      ["Chiplab", "84", "+9%", "support score", "支持度"],
+      ["Synthreel", "81", "+7%", "support score", "支持度"],
+    ],
+  },
+  {
+    id: "potential",
+    icon: RocketLaunch,
+    tone: "sky",
+    title: "New product potential",
+    titleZh: "新品潜力排行",
+    description: "Fresh launches showing the clearest signals for what comes next.",
+    descriptionZh: "关注刚发布的产品，寻找最清晰、最有机会持续增长的新信号。",
+    metric: "Momentum",
+    metricZh: "增长势能",
+    entries: [
+      ["Paper Critters", "+42%", "early signal", "week over week", "周环比"],
+      ["StudyEaseHaven", "+36%", "early signal", "week over week", "周环比"],
+      ["BuyingWindow", "+31%", "early signal", "week over week", "周环比"],
+      ["Focora", "+28%", "early signal", "week over week", "周环比"],
+      ["BeartIMAGE", "+25%", "early signal", "week over week", "周环比"],
+    ],
+  },
+  {
+    id: "revenue",
+    icon: TrendUp,
+    tone: "mint",
+    title: "Revenue growth",
+    titleZh: "营收增长排行",
+    description: "Products turning early attention into a healthier revenue curve.",
+    descriptionZh: "关注把早期关注转化为持续营收增长的产品。",
+    metric: "30-day revenue",
+    metricZh: "近 30 天营收",
+    entries: [
+      ["FirstRevenue", "¥2,246", "+24%", "30-day growth", "近 30 天增长"],
+      ["Cloud Notes", "¥1,780", "+18%", "30-day growth", "近 30 天增长"],
+      ["StreamCalc", "¥1,420", "+16%", "30-day growth", "近 30 天增长"],
+      ["Chiplab", "¥1,110", "+14%", "30-day growth", "近 30 天增长"],
+      ["Synthreel", "¥980", "+12%", "30-day growth", "近 30 天增长"],
+    ],
+  },
+  {
+    id: "users",
+    icon: UsersThree,
+    tone: "aqua",
+    title: "User growth",
+    titleZh: "用户增长排行",
+    description: "The products earning more visits, conversations, and returning users.",
+    descriptionZh: "关注访问、对话与回访用户都在持续增加的产品。",
+    metric: "Monthly visits",
+    metricZh: "月访问量",
+    entries: [
+      ["Cloud Notes", "24.7k", "+32%", "monthly visits", "月访问量"],
+      ["ORBII", "18.4k", "+27%", "monthly visits", "月访问量"],
+      ["TenThirty", "15.9k", "+21%", "monthly visits", "月访问量"],
+      ["StudyEaseHaven", "12.8k", "+19%", "monthly visits", "月访问量"],
+      ["StreamCalc", "9.8k", "+17%", "monthly visits", "月访问量"],
+    ],
+  },
+];
+
 const productNamesZh = {
   "Mint List": "薄荷清单",
   "Cloud Notes": "观云笔记",
@@ -659,7 +734,7 @@ function ProductsPage({ language, onToggle }) {
           <div><p className="eyebrow">{language === "zh" ? "发现产品" : "DISCOVER PRODUCTS"}</p><h1>{language === "zh" ? "来自现在与过往发布的好产品。" : "Good tools from active and past launches."}</h1><p>{language === "zh" ? "探索由真实创作者打造的独立产品。搜索你需要的工具，或按类别寻找下一个灵感。" : "Explore independent products made by real makers. Search what you need, or browse by the category that fits your next idea."}</p></div>
           <div className="directory-hero-actions">
             <div className="directory-stat"><span>{language === "zh" ? "本周新品" : "NEW THIS WEEK"}</span><strong>48</strong><p>{language === "zh" ? "值得进一步了解的新产品" : "fresh products worth a closer look"}</p></div>
-            <a className="directory-ranking-entry" href="/weekly-launch" aria-label={language === "zh" ? "查看产品排行榜" : "View product rankings"}>
+            <a className="directory-ranking-entry" href="/products/rankings" aria-label={language === "zh" ? "查看产品排行榜" : "View product rankings"}>
               <span className="directory-ranking-icon"><TrendUp weight="bold" /></span>
               <span className="directory-ranking-copy"><span>{language === "zh" ? "热门榜单" : "TRENDING NOW"}</span><strong>{language === "zh" ? "产品排行榜" : "Product rankings"}</strong><small>{language === "zh" ? "查看本周最受支持的产品" : "See the products makers support most"}</small></span>
               <ArrowRight className="directory-ranking-arrow" />
@@ -698,6 +773,52 @@ function ProductsPage({ language, onToggle }) {
         <section className="directory-guides" aria-labelledby="guides-title"><div className="detail-section-heading"><div><p className="section-kicker">{language === "zh" ? "面向创作者" : "FOR MAKERS"}</p><h2 id="guides-title">{language === "zh" ? "准备自己的发布？" : "Planning your own launch?"}</h2></div><a href="/learn">{language === "zh" ? "发布指南" : "Launch guides"} <ArrowRight /></a></div><div className="guide-grid">{directoryGuides.map(([title, copy, picks]) => <article key={title}><h3>{copyFor(title, language)}</h3><p>{copyFor(copy, language)}</p><a href="/learn">{copyFor(picks, language)} <ArrowRight /></a></article>)}</div></section>
       </main>
       <footer className="detail-footer directory-footer"><a className="brand" href="/"><span className="brand-mark"><VLauncherLogo /></span><span>VLauncher</span></a><span>{language === "zh" ? "为独立创作者与用心的发布而生。" : "Made for independent makers and thoughtful launches."}</span><span>© 2026 VLauncher</span></footer>
+    </div>
+  );
+}
+
+function ProductRankingsPage({ language, onToggle }) {
+  const isChinese = language === "zh";
+  const [activeId, setActiveId] = useState("best");
+  const activeDimension = productRankingDimensions.find((dimension) => dimension.id === activeId) ?? productRankingDimensions[0];
+  const productLookup = Object.fromEntries(directoryProducts.map((product) => [product.name, product]));
+
+  return (
+    <div className="rankings-shell">
+      <SiteHeader language={language} onToggle={onToggle} active="products" onSearch={() => {}} />
+      <div className="directory-banner"><span>{isChinese ? "创作者网络 · 用数据发现值得关注的产品" : "Maker network · Find the products worth following"}</span><a href="/launch">{isChinese ? "发布你的产品" : "Launch yours"} <ArrowRight /></a></div>
+
+      <main className="rankings-main">
+        <nav className="rankings-breadcrumbs" aria-label={isChinese ? "面包屑导航" : "Breadcrumb"}><a href="/products">{isChinese ? "产品目录" : "Products"}</a><CaretRight /><span>{isChinese ? "产品排行榜" : "Product rankings"}</span></nav>
+        <section className="rankings-hero">
+          <div><p className="eyebrow">{isChinese ? "产品排行榜" : "PRODUCT RANKINGS"}</p><h1>{isChinese ? "找到正在向前的产品。" : "Find the products moving forward."}</h1><p>{isChinese ? "从综合表现、新品潜力、营收增长与用户增长四个维度，快速了解 VLauncher 社区里最值得关注的产品。" : "Explore the products worth watching across four signals: overall strength, new-product potential, revenue growth, and user growth."}</p></div>
+          <div className="rankings-hero-note"><TrendUp weight="bold" /><strong>{isChinese ? "4 个排行维度" : "4 ranking signals"}</strong><span>{isChinese ? "每周更新，持续发现新势能。" : "Updated weekly to surface new momentum."}</span></div>
+        </section>
+
+        <nav className="ranking-dimension-tabs" aria-label={isChinese ? "排行维度" : "Ranking dimensions"}>
+          {productRankingDimensions.map(({ id, icon: Icon, title, titleZh, description, descriptionZh }) => <button key={id} className={activeId === id ? "active" : ""} aria-pressed={activeId === id} onClick={() => setActiveId(id)}><span className="ranking-tab-icon"><Icon weight="fill" /></span><span><strong>{isChinese ? titleZh : title}</strong><small>{isChinese ? descriptionZh : description}</small></span><CaretRight /></button>)}
+        </nav>
+
+        <div className="rankings-layout">
+          <section className="ranking-board" aria-labelledby="ranking-board-title">
+            <div className="ranking-board-heading"><div><p className="section-kicker">{isChinese ? "本周榜单" : "THIS WEEK"}</p><h2 id="ranking-board-title">{isChinese ? activeDimension.titleZh : activeDimension.title}</h2><p>{isChinese ? activeDimension.descriptionZh : activeDimension.description}</p></div><span className="ranking-updated">{isChinese ? "更新于 8 月 12 日" : "Updated Aug 12, 2026"}</span></div>
+            <div className="ranking-list">
+              {activeDimension.entries.map(([name, value, change, metricEn, metricZh], index) => {
+                const product = productLookup[name] ?? directoryProducts[0];
+                const ProductIcon = product.Icon;
+                return <a className="ranking-row" href={product.href ?? "/products"} key={name}><span className={`ranking-position ${index < 3 ? "top" : ""}`}>{index + 1}</span><Mark Icon={ProductIcon} tone={product.tone} /><div className="ranking-product-copy"><div><strong>{productLabel(name, language)}</strong><span className="ranking-product-category">{categoryLabel(product.tags[0], language)}</span></div><p>{copyFor(product.description, language)}</p></div><div className="ranking-metric"><strong>{value}</strong><span>{isChinese ? metricZh : metricEn}</span></div><span className="ranking-change"><TrendUp weight="bold" />{change}</span><ArrowRight className="ranking-row-arrow" /></a>;
+              })}
+            </div>
+          </section>
+
+          <aside className="ranking-side">
+            <section className="ranking-method"><p className="section-kicker">{isChinese ? "榜单说明" : "HOW IT WORKS"}</p><h2>{isChinese ? "让信号比噪音更有用。" : "Make signals more useful than noise."}</h2><p>{isChinese ? "榜单结合社区支持、产品活跃度、营收与访问趋势，帮助你在正确的时间发现下一款好产品。" : "Rankings combine community support, product activity, revenue, and visit trends to help you find the next good product at the right time."}</p><ul><li><CheckCircle weight="fill" /><span>{isChinese ? "每周更新一次" : "Updated every week"}</span></li><li><CheckCircle weight="fill" /><span>{isChinese ? "关注真实增长信号" : "Focuses on real growth signals"}</span></li><li><CheckCircle weight="fill" /><span>{isChinese ? "不接受付费置顶" : "No paid placements"}</span></li></ul></section>
+            <section className="ranking-side-cta"><span className="ranking-side-icon"><RocketLaunch weight="fill" /></span><p className="section-kicker">{isChinese ? "准备好被看见？" : "READY TO BE SEEN?"}</p><h2>{isChinese ? "让你的产品进入下一周榜单。" : "Put your product on next week’s board."}</h2><a href="/launch">{isChinese ? "发布你的产品" : "Launch your product"} <ArrowRight /></a></section>
+          </aside>
+        </div>
+      </main>
+
+      <footer className="detail-footer rankings-footer"><a className="brand" href="/"><span className="brand-mark"><VLauncherLogo /></span><span>VLauncher</span></a><span>{isChinese ? "为独立创作者与值得关注的产品而生。" : "Built for independent makers and products worth following."}</span><span>© 2026 VLauncher</span></footer>
     </div>
   );
 }
@@ -1237,6 +1358,7 @@ export function App() {
   if (window.location.pathname.startsWith("/startup/cloud-notes")) return <ProductDetail {...pageProps} productSlug="cloud-notes" />;
   if (window.location.pathname.startsWith("/startup/firstrevenue")) return <ProductDetail {...pageProps} />;
   if (window.location.pathname.startsWith("/weekly-launch")) return <WeeklyLaunchPage {...pageProps} />;
+  if (window.location.pathname.startsWith("/products/rankings")) return <ProductRankingsPage {...pageProps} />;
   if (window.location.pathname.startsWith("/products")) return <ProductsPage {...pageProps} />;
   if (window.location.pathname.startsWith("/makers")) return <MakersPage {...pageProps} />;
   if (window.location.pathname.startsWith("/learn")) return <LearnPage {...pageProps} />;
