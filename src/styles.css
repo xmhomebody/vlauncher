@@ -226,6 +226,27 @@ main { padding-bottom: 0; }
 /* Keep the full category directory visible; the page itself provides scrolling. */
 .directory-category-list { max-height: none; overflow: visible; scrollbar-width: auto; scrollbar-color: auto; }
 
+/* Product directory sorting and metric filters */
+.directory-filter-bar { display: flex; align-items: stretch; flex-wrap: wrap; gap: 8px; margin-top: 13px; padding: 10px; border: 1px solid #e0e6ef; border-radius: 10px; background: #fbfcff; }
+.directory-filter-intro { min-width: 126px; display: flex; flex-direction: column; justify-content: center; padding: 0 5px; }
+.directory-filter-intro strong { color: #43516a; font-size: 10px; letter-spacing: .04em; }
+.directory-filter-intro span { margin-top: 3px; color: #9aa5b5; font-size: 9px; }
+.directory-filter-control { min-width: 145px; display: flex; flex: 1 1 145px; flex-direction: column; gap: 4px; }
+.directory-filter-control > span { color: #8995a7; font-size: 9px; font-weight: 740; }
+.directory-filter-control select, .directory-sort-control select { min-width: 0; height: 31px; padding: 0 25px 0 9px; border: 1px solid #dfe5ef; border-radius: 6px; outline: 0; color: #4e5c73; background: #fff; font: inherit; font-size: 10px; cursor: pointer; }
+.directory-filter-control select:focus, .directory-sort-control select:focus { border-color: #9eb3ff; box-shadow: 0 0 0 3px rgba(39,88,238,.08); }
+.directory-filter-reset { align-self: flex-end; height: 31px; padding: 0 8px; border: 0; border-radius: 6px; color: #2758ee; background: transparent; font-size: 10px; font-weight: 760; white-space: nowrap; }
+.directory-filter-reset:hover { background: #edf2ff; }
+.directory-sort-control { position: relative; display: inline-flex; align-items: center; gap: 6px; color: #7c899c; font-size: 11px; }
+.directory-sort-control > span { white-space: nowrap; }
+.directory-sort-control select { height: 29px; padding-left: 8px; color: #53627a; font-size: 11px; font-weight: 700; }
+.directory-sort-control > svg { position: absolute; right: 7px; width: 12px; height: 12px; color: #73819a; pointer-events: none; }
+.directory-product-signals { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; color: #8b96a7; font-size: 9px; }
+.directory-product-signals span { display: inline-flex; align-items: center; gap: 3px; }
+.directory-product-signals strong { color: #6c7990; font-size: 8px; font-weight: 800; letter-spacing: .03em; }
+@media (max-width: 1000px) { .directory-filter-intro { min-width: 100%; padding: 0 2px 2px; }.directory-filter-control { flex-basis: 30%; }.directory-filter-reset { margin-left: auto; } }
+@media (max-width: 680px) { .directory-filter-bar { align-items: stretch; flex-direction: column; }.directory-filter-control { flex-basis: auto; }.directory-filter-reset { align-self: flex-start; margin-left: 0; }.directory-list-head { align-items: flex-start; flex-direction: column; gap: 9px; }.directory-sort-control { width: 100%; justify-content: space-between; }.directory-sort-control select { flex: 1; }.directory-sort-control > svg { right: 8px; }.directory-product-signals { gap: 6px; line-height: 1.4; } }
+
 /* Product rankings */
 .rankings-shell { min-height: 100vh; overflow: hidden; color: #1a2232; background: #f7f9fc; }
 .rankings-main { max-width: 1200px; margin: 0 auto; padding: 29px 24px 78px; }

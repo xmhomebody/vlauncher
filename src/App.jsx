@@ -222,6 +222,20 @@ const directoryProducts = [
   { name: "Paper Critters", description: "A safe 3D paper-toy studio where kids can make creative little worlds for free.", creator: "jr.fabito", replies: 8, votes: 28, tags: ["3D & AR/VR", "Design Tools"], Icon: Leaf, tone: "green" },
 ];
 
+const directoryProductMetrics = {
+  FirstRevenue: { mrr: 1347, visits: 18420, launchDate: "2026-03-12", launchLabel: "Mar 12, 2026", launchLabelZh: "2026 年 3 月 12 日" },
+  Focora: { mrr: 920, visits: 7420, launchDate: "2026-07-22", launchLabel: "Jul 22, 2026", launchLabelZh: "2026 年 7 月 22 日" },
+  TenThirty: { mrr: 760, visits: 15900, launchDate: "2026-08-08", launchLabel: "Aug 8, 2026", launchLabelZh: "2026 年 8 月 8 日" },
+  ORBII: { mrr: 1180, visits: 18420, launchDate: "2026-08-10", launchLabel: "Aug 10, 2026", launchLabelZh: "2026 年 8 月 10 日" },
+  StreamCalc: { mrr: 1420, visits: 9840, launchDate: "2026-07-13", launchLabel: "Jul 13, 2026", launchLabelZh: "2026 年 7 月 13 日" },
+  BuyingWindow: { mrr: 640, visits: 5160, launchDate: "2026-07-06", launchLabel: "Jul 6, 2026", launchLabelZh: "2026 年 7 月 6 日" },
+  BeartIMAGE: { mrr: 510, visits: 6680, launchDate: "2026-06-28", launchLabel: "Jun 28, 2026", launchLabelZh: "2026 年 6 月 28 日" },
+  Chiplab: { mrr: 1110, visits: 6800, launchDate: "2026-08-06", launchLabel: "Aug 6, 2026", launchLabelZh: "2026 年 8 月 6 日" },
+  Synthreel: { mrr: 980, visits: 8240, launchDate: "2026-07-30", launchLabel: "Jul 30, 2026", launchLabelZh: "2026 年 7 月 30 日" },
+  StudyEaseHaven: { mrr: 580, visits: 12800, launchDate: "2026-08-09", launchLabel: "Aug 9, 2026", launchLabelZh: "2026 年 8 月 9 日" },
+  "Paper Critters": { mrr: 420, visits: 6200, launchDate: "2026-08-03", launchLabel: "Aug 3, 2026", launchLabelZh: "2026 年 8 月 3 日" },
+};
+
 const productRankingDimensions = [
   {
     id: "best",
@@ -713,6 +727,10 @@ function ProductsPage({ language, onToggle }) {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All products");
   const [activePage, setActivePage] = useState(1);
+  const [sortBy, setSortBy] = useState("newest");
+  const [mrrFilter, setMrrFilter] = useState("all");
+  const [visitsFilter, setVisitsFilter] = useState("all");
+  const [releaseFilter, setReleaseFilter] = useState("all");
   const [votes, setVotes] = useState(() => Object.fromEntries(directoryProducts.map(({ name, votes: value }) => [name, value])));
   const [voted, setVoted] = useState({});
   const [toast, setToast] = useState("");
@@ -722,14 +740,48 @@ function ProductsPage({ language, onToggle }) {
     window.setTimeout(() => setToast(""), 2800);
   };
 
+  const matchesRange = (value, range) => {
+    if (range === "all") return true;
+    if (range === "under500") return value < 500;
+    if (range === "500to1000") return value >= 500 && value < 1000;
+    if (range === "over1000") return value >= 1000;
+    if (range === "under5000") return value < 5000;
+    if (range === "5000to15000") return value >= 5000 && value < 15000;
+    if (range === "over15000") return value >= 15000;
+    return true;
+  };
+
+  const matchesReleaseRange = (date, range) => {
+    if (range === "all") return true;
+    const daysSinceLaunch = Math.round((Date.parse("2026-08-12") - Date.parse(date)) / 86400000);
+    if (range === "last7") return daysSinceLaunch <= 7;
+    if (range === "last30") return daysSinceLaunch <= 30;
+    if (range === "last90") return daysSinceLaunch <= 90;
+    return true;
+  };
+
   const filtered = directoryProducts.filter((product) => {
+    const metrics = directoryProductMetrics[product.name];
     const matchesQuery = `${product.name} ${productLabel(product.name, language)} ${product.description} ${product.creator} ${product.tags.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase());
     const matchesCategory = activeCategory === "All products" || product.tags.includes(activeCategory);
-    return matchesQuery && matchesCategory;
+    return matchesQuery && matchesCategory && matchesRange(metrics.mrr, mrrFilter) && matchesRange(metrics.visits, visitsFilter) && matchesReleaseRange(metrics.launchDate, releaseFilter);
   });
-  const visibleProducts = activePage === 1 ? filtered : [...filtered.slice(3), ...filtered.slice(0, 3)];
-  const start = filtered.length ? (activePage - 1) * 10 + 1 : 0;
-  const end = filtered.length ? start + visibleProducts.length - 1 : 0;
+  const sortedProducts = [...filtered].sort((first, second) => {
+    const firstMetrics = directoryProductMetrics[first.name];
+    const secondMetrics = directoryProductMetrics[second.name];
+    if (sortBy === "mrrDesc") return secondMetrics.mrr - firstMetrics.mrr;
+    if (sortBy === "mrrAsc") return firstMetrics.mrr - secondMetrics.mrr;
+    if (sortBy === "visitsDesc") return secondMetrics.visits - firstMetrics.visits;
+    if (sortBy === "visitsAsc") return firstMetrics.visits - secondMetrics.visits;
+    if (sortBy === "oldest") return Date.parse(firstMetrics.launchDate) - Date.parse(secondMetrics.launchDate);
+    return Date.parse(secondMetrics.launchDate) - Date.parse(firstMetrics.launchDate);
+  });
+  const pageSize = 10;
+  const pageCount = Math.max(1, Math.ceil(sortedProducts.length / pageSize));
+  const safePage = Math.min(activePage, pageCount);
+  const visibleProducts = sortedProducts.slice((safePage - 1) * pageSize, safePage * pageSize);
+  const start = sortedProducts.length ? (safePage - 1) * pageSize + 1 : 0;
+  const end = sortedProducts.length ? start + visibleProducts.length - 1 : 0;
 
   const selectCategory = (category) => {
     setActiveCategory(category);
@@ -741,6 +793,22 @@ function ProductsPage({ language, onToggle }) {
     event?.stopPropagation();
     setVotes((current) => ({ ...current, [name]: current[name] + (voted[name] ? -1 : 1) }));
     setVoted((current) => ({ ...current, [name]: !current[name] }));
+  };
+
+  const sortOptions = [
+    ["newest", "发布时间：新到旧", "Release date: newest"],
+    ["oldest", "发布时间：旧到新", "Release date: oldest"],
+    ["mrrDesc", "月营收（MRR）：高到低", "Monthly revenue (MRR): high to low"],
+    ["mrrAsc", "月营收（MRR）：低到高", "Monthly revenue (MRR): low to high"],
+    ["visitsDesc", "访问量：高到低", "Visits: high to low"],
+    ["visitsAsc", "访问量：低到高", "Visits: low to high"],
+  ];
+  const hasMetricFilters = mrrFilter !== "all" || visitsFilter !== "all" || releaseFilter !== "all";
+  const resetMetricFilters = () => {
+    setMrrFilter("all");
+    setVisitsFilter("all");
+    setReleaseFilter("all");
+    setActivePage(1);
   };
 
   return (
@@ -765,23 +833,32 @@ function ProductsPage({ language, onToggle }) {
         <section className="directory-layout" aria-label={language === "zh" ? "产品目录" : "Product directory"}>
           <div className="directory-results">
             <div className="directory-search"><MagnifyingGlass /><input value={query} onChange={(event) => { setQuery(event.target.value); setActivePage(1); }} placeholder={language === "zh" ? "搜索产品、创作者或需求…" : "Search products, makers, or a problem…"} aria-label={language === "zh" ? "搜索产品" : "Search products"} /><button onClick={() => setQuery("")} aria-label={language === "zh" ? "清除产品搜索" : "Clear product search"}>{query ? (language === "zh" ? "清除" : "Clear") : "⌘ K"}</button></div>
-            <div className="directory-list-head"><span>{filtered.length ? (language === "zh" ? `第 ${start}–${end} 个，共 629 个产品` : `${start}–${end} of 629 products`) : (language === "zh" ? "未找到产品" : "No products found")}</span><button onClick={() => announce(language === "zh" ? "已按最新产品排序。" : "Newest products are shown first.")}>{language === "zh" ? "最新" : "Newest"} <CaretDown /></button></div>
+            <div className="directory-filter-bar" aria-label={language === "zh" ? "产品条件筛选" : "Product filters"}>
+              <div className="directory-filter-intro"><strong>{language === "zh" ? "条件筛选" : "FILTER BY"}</strong><span>{language === "zh" ? "按关键指标缩小结果" : "Narrow by key signals"}</span></div>
+              <label className="directory-filter-control"><span>{language === "zh" ? "月营收（MRR）" : "Monthly revenue (MRR)"}</span><select value={mrrFilter} onChange={(event) => { setMrrFilter(event.target.value); setActivePage(1); }}><option value="all">{language === "zh" ? "全部" : "Any MRR"}</option><option value="under500">{language === "zh" ? "¥500 以下" : "Under ¥500"}</option><option value="500to1000">{language === "zh" ? "¥500–¥999" : "¥500–¥999"}</option><option value="over1000">{language === "zh" ? "¥1,000 以上" : "¥1,000+"}</option></select></label>
+              <label className="directory-filter-control"><span>{language === "zh" ? "访问量" : "Visits"}</span><select value={visitsFilter} onChange={(event) => { setVisitsFilter(event.target.value); setActivePage(1); }}><option value="all">{language === "zh" ? "全部" : "Any visits"}</option><option value="under5000">{language === "zh" ? "5,000 以下" : "Under 5,000"}</option><option value="5000to15000">{language === "zh" ? "5,000–14,999" : "5,000–14,999"}</option><option value="over15000">{language === "zh" ? "15,000 以上" : "15,000+"}</option></select></label>
+              <label className="directory-filter-control"><span>{language === "zh" ? "发布时间" : "Release date"}</span><select value={releaseFilter} onChange={(event) => { setReleaseFilter(event.target.value); setActivePage(1); }}><option value="all">{language === "zh" ? "全部时间" : "Any date"}</option><option value="last7">{language === "zh" ? "最近 7 天" : "Last 7 days"}</option><option value="last30">{language === "zh" ? "最近 30 天" : "Last 30 days"}</option><option value="last90">{language === "zh" ? "最近 90 天" : "Last 90 days"}</option></select></label>
+              {hasMetricFilters && <button className="directory-filter-reset" type="button" onClick={resetMetricFilters}>{language === "zh" ? "清除筛选" : "Clear filters"}</button>}
+            </div>
+            <div className="directory-list-head"><span>{filtered.length ? (language === "zh" ? `第 ${start}–${end} 个，共 ${sortedProducts.length} 个匹配产品` : `${start}–${end} of ${sortedProducts.length} matching products`) : (language === "zh" ? "未找到产品" : "No products found")}</span><label className="directory-sort-control"><span>{language === "zh" ? "排序" : "Sort"}</span><select value={sortBy} onChange={(event) => { setSortBy(event.target.value); setActivePage(1); }}>{sortOptions.map(([value, zh, en]) => <option key={value} value={value}>{language === "zh" ? zh : en}</option>)}</select><CaretDown /></label></div>
             <div className="directory-list">
               {visibleProducts.map((product) => {
                 const Icon = product.Icon;
+                const metrics = directoryProductMetrics[product.name];
                 return <article className="directory-product-row" key={product.name} data-linked={Boolean(product.href)} onClick={() => product.href && window.location.assign(product.href)}>
                   <Mark Icon={Icon} tone={product.tone} />
                   <div className="directory-product-copy">
                     <div className="directory-product-title"><h2>{productLabel(product.name, language)}</h2>{product.name === "FirstRevenue" && <span className="verified-badge"><ShieldCheck weight="fill" />{language === "zh" ? "已验证" : "Verified"}</span>}</div>
                     <p>{copyFor(product.description, language)}</p>
                     <div className="directory-product-meta"><span className="tag">{categoryLabel(product.tags[0], language)}</span><span className="tag">{categoryLabel(product.tags[1], language)}</span><span>{language === "zh" ? "来自 " : "by "}<a href={`#${product.creator}`} onClick={(event) => { event.preventDefault(); event.stopPropagation(); announce(language === "zh" ? `${product.creator} 的创作者主页即将打开。` : `${product.creator}'s maker profile is next.`); }}>@{product.creator}</a></span><span><ChatCircleText weight="fill" />{product.replies}</span></div>
+                    <div className="directory-product-signals"><span><strong>MRR</strong> ¥{metrics.mrr.toLocaleString()}</span><span><strong>{language === "zh" ? "访问量" : "Visits"}</strong> {metrics.visits.toLocaleString()}</span><span><strong>{language === "zh" ? "发布" : "Launched"}</strong> {language === "zh" ? metrics.launchLabelZh : metrics.launchLabel}</span></div>
                   </div>
                   <div className="directory-row-actions"><a className="view-product-link" href={product.href ?? `#${product.name.toLowerCase()}`} onClick={(event) => { event.stopPropagation(); if (!product.href) { event.preventDefault(); announce(language === "zh" ? `${productLabel(product.name, language)} 即将打开。` : `${product.name} is opening next.`); } }}>{language === "zh" ? "查看" : "View"} <ArrowRight /></a><VoteButton value={votes[product.name]} voted={Boolean(voted[product.name])} language={language} onVote={(event) => handleVote(product.name, event)} /></div>
                 </article>;
               })}
               {!visibleProducts.length && <div className="empty-directory"><MagnifyingGlass /><h2>{language === "zh" ? "没有符合条件的产品。" : "No products match that search."}</h2><p>{language === "zh" ? "尝试更宽泛的关键词，或清除已选分类。" : "Try a broader term, or clear the selected category."}</p><button onClick={() => { setQuery(""); selectCategory("All products"); }}>{language === "zh" ? "显示全部产品" : "Show all products"}</button></div>}
             </div>
-            {filtered.length > 0 && <nav className="directory-pagination" aria-label={language === "zh" ? "产品结果分页" : "Product result pages"}><button aria-label={language === "zh" ? "上一页" : "Previous page"} disabled={activePage === 1} onClick={() => setActivePage((page) => Math.max(1, page - 1))}>‹</button>{[1, 2, 3, 4, 5].map((page) => <button key={page} className={activePage === page ? "active" : ""} onClick={() => setActivePage(page)}>{page}</button>)}<span>…</span><button onClick={() => setActivePage((page) => Math.min(5, page + 1))}>{language === "zh" ? "下一页" : "Next"} <ArrowRight /></button></nav>}
+            {filtered.length > 0 && <nav className="directory-pagination" aria-label={language === "zh" ? "产品结果分页" : "Product result pages"}><button aria-label={language === "zh" ? "上一页" : "Previous page"} disabled={safePage === 1} onClick={() => setActivePage((page) => Math.max(1, page - 1))}>‹</button>{Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => <button key={page} className={safePage === page ? "active" : ""} onClick={() => setActivePage(page)}>{page}</button>)}<button disabled={safePage >= pageCount} onClick={() => setActivePage((page) => Math.min(pageCount, page + 1))}>{language === "zh" ? "下一页" : "Next"} <ArrowRight /></button></nav>}
           </div>
 
           <aside className="directory-categories" aria-labelledby="directory-categories-title">
