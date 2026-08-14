@@ -853,8 +853,8 @@ function LaunchPage({ language, onToggle }) {
   };
   const stepIsValid = [
     Boolean(form.productName.trim() && form.tagline.trim() && form.website.trim() && form.productType && form.category),
-    Boolean(form.description.trim().length >= 40 && form.makerName.trim() && form.makerEmail.includes("@")),
-    Boolean(form.launchWeek && form.goal && form.launchNote.trim().length >= 20 && form.agree),
+    Boolean(form.description.trim() && form.makerName.trim() && form.makerEmail.includes("@")),
+    Boolean(form.launchWeek && form.goal && form.launchNote.trim() && form.agree),
     true,
   ][step];
   const nextStep = () => {
@@ -879,7 +879,6 @@ function LaunchPage({ language, onToggle }) {
     <main className="launch-main">
       <section className="launch-intro">
         <div><p className="eyebrow">{isChinese ? "发布工作台" : "LAUNCH WORKSPACE"}</p><h1>{isChinese ? "让你的产品被真正需要它的人看见。" : "Put your product in front of people who genuinely need it."}</h1><p>{isChinese ? "用几分钟准备产品资料。我们会帮你把价值说清楚，并安排一个完整的每周发布窗口。" : "Take a few minutes to prepare your story. We’ll help make the value clear and give it a full week to be discovered."}</p></div>
-        <div className="launch-intro-meta"><span><CheckCircle weight="fill" />{isChinese ? "保存为本机草稿" : "Saved as a local draft"}</span><span><ShieldCheck weight="fill" />{isChinese ? "提交前可随时预览" : "Preview before submitting"}</span></div>
       </section>
 
       <ol className="launch-progress" aria-label={isChinese ? "发布进度" : "Launch progress"}>
@@ -902,7 +901,7 @@ function LaunchPage({ language, onToggle }) {
           {step === 1 && <div className="launch-step">
             <div className="launch-step-heading"><span>02</span><div><h2>{isChinese ? "讲清楚故事，准备好素材" : "Tell the story and add media"}</h2><p>{isChinese ? "帮助早期用户快速理解产品为什么值得关注。" : "Help early users understand why this product deserves attention."}</p></div></div>
             <div className="launch-field-grid">
-              <label className="launch-field full"><span>{isChinese ? "产品介绍" : "Product description"}<b>*</b></span><textarea value={form.description} onChange={(event) => update("description", event.target.value)} maxLength={520} placeholder={isChinese ? "介绍问题、解决方式，以及现在为什么值得体验。至少 40 个字。" : "Describe the problem, your approach, and why it is worth trying now. At least 40 characters."} /><small>{form.description.length}/520</small></label>
+              <label className="launch-field full"><span>{isChinese ? "产品介绍" : "Product description"}<b>*</b></span><textarea value={form.description} onChange={(event) => update("description", event.target.value)} maxLength={520} placeholder={isChinese ? "介绍问题、解决方式，以及现在为什么值得体验。" : "Describe the problem, your approach, and why it is worth trying now."} /><small>{form.description.length}/520</small></label>
               <label className="launch-field"><span>{isChinese ? "创作者姓名" : "Maker name"}<b>*</b></span><input value={form.makerName} onChange={(event) => update("makerName", event.target.value)} placeholder={isChinese ? "你的名字" : "Your name"} /></label>
               <label className="launch-field"><span>{isChinese ? "联系邮箱" : "Contact email"}<b>*</b></span><input type="email" value={form.makerEmail} onChange={(event) => update("makerEmail", event.target.value)} placeholder="you@example.com" /></label>
               <div className="launch-upload"><div className="upload-icon"><ImageSquare weight="fill" /></div><div><strong>{isChinese ? "产品 Logo" : "Product logo"}</strong><p>{isChinese ? "建议使用正方形 PNG 或 JPG，至少 512 × 512。" : "Square PNG or JPG, at least 512 × 512 recommended."}</p><span>{form.logoName || (isChinese ? "尚未选择文件" : "No file selected")}</span></div><label><UploadSimple />{isChinese ? "选择文件" : "Choose file"}<input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => update("logoName", event.target.files?.[0]?.name ?? "")} /></label></div>
@@ -914,7 +913,7 @@ function LaunchPage({ language, onToggle }) {
             <div className="launch-step-heading"><span>03</span><div><h2>{isChinese ? "选择发布周与目标" : "Choose your week and goal"}</h2><p>{isChinese ? "一个明确目标，会让整周获得的反馈更有价值。" : "A clear goal makes the feedback you receive far more useful."}</p></div></div>
             <fieldset className="launch-choice-field"><legend>{isChinese ? "计划发布周" : "Launch week"}<b>*</b></legend><div className="week-choice-grid">{launchWeeks.map((week, index) => <button type="button" key={week} className={form.launchWeek === week ? "selected" : ""} onClick={() => update("launchWeek", week)}><CalendarBlank weight="fill" /><span><strong>{weeklyDateLabel(week, language)}</strong><small>{index === 0 ? (isChinese ? "推荐 · 剩余 12 个名额" : "Recommended · 12 spots left") : (isChinese ? "仍可提交" : "Open for submissions")}</small></span>{form.launchWeek === week && <CheckCircle weight="fill" />}</button>)}</div></fieldset>
             <fieldset className="launch-choice-field"><legend>{isChinese ? "这次发布最重要的目标" : "Primary launch goal"}<b>*</b></legend><div className="goal-choice-grid">{launchGoals.map((goal) => <button type="button" key={goal} className={form.goal === goal ? "selected" : ""} onClick={() => update("goal", goal)}><span>{goalLabels[goal]}</span>{form.goal === goal && <CheckCircle weight="fill" />}</button>)}</div></fieldset>
-            <label className="launch-field"><span>{isChinese ? "发布说明" : "Launch note"}<b>*</b></span><textarea value={form.launchNote} onChange={(event) => update("launchNote", event.target.value)} maxLength={280} placeholder={isChinese ? "告诉大家你现在最希望获得哪类建议，至少 20 个字。" : "Tell the community what kind of feedback would help most. At least 20 characters."} /><small>{form.launchNote.length}/280</small></label>
+            <label className="launch-field"><span>{isChinese ? "发布说明" : "Launch note"}<b>*</b></span><textarea value={form.launchNote} onChange={(event) => update("launchNote", event.target.value)} maxLength={280} placeholder={isChinese ? "告诉大家你现在最希望获得哪类建议。" : "Tell the community what kind of feedback would help most."} /><small>{form.launchNote.length}/280</small></label>
             <label className="launch-consent"><input type="checkbox" checked={form.agree} onChange={(event) => update("agree", event.target.checked)} /><span>{isChinese ? "我确认产品链接可正常访问，并同意遵守 VLauncher 的社区发布规范。" : "I confirm the product is accessible and agree to the VLauncher community launch guidelines."}</span></label>
           </div>}
 
