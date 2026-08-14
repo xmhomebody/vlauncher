@@ -781,7 +781,7 @@ function ProductRankingsPage({ language, onToggle }) {
   const isChinese = language === "zh";
   const [activeId, setActiveId] = useState("best");
   const activeDimension = productRankingDimensions.find((dimension) => dimension.id === activeId) ?? productRankingDimensions[0];
-  const productLookup = Object.fromEntries(directoryProducts.map((product) => [product.name, product]));
+  const productLookup = Object.fromEntries([...products, ...directoryProducts].map((product) => [product.name, product]));
 
   return (
     <div className="rankings-shell">
