@@ -467,6 +467,7 @@ function HomePage({ language, onToggle }) {
   const [votes, setVotes] = useState(() => products.map((product) => product.votes));
   const [voted, setVoted] = useState(() => products.map(() => false));
   const [activeTab, setActiveTab] = useState("Newest");
+  const [selectedDayIndex, setSelectedDayIndex] = useState(2);
   const [toast, setToast] = useState("");
 
   const handleVote = (index, event) => {
@@ -502,9 +503,9 @@ function HomePage({ language, onToggle }) {
             <h1>{language === "zh" ? "好产品，值得不止一天的聚光灯。" : "Good products deserve more than one day in the spotlight."}</h1>
             <p className="hero-lede">{language === "zh" ? "VLauncher 是独立产品的每周发布阵地。分享你的作品，遇见早期用户，并让发布后的对话继续发生。" : "VLauncher is the weekly home for independent launches. Share your work, meet early users, and keep the conversation going after day one."}</p>
             <div className="week-strip" aria-label={language === "zh" ? "每周发布时间表" : "Launch week schedule"}>
-              {launchDays.map(([day, date], index) => <button key={day} className={index === 2 ? "active" : ""} onClick={() => announce(language === "zh" ? `已选择 ${day}，${date}。` : `${day}, ${date} is selected.`)}><b>{day}</b><span>{date}</span></button>)}
+              {launchDays.map(([day, date], index) => <button key={day} className={index === selectedDayIndex ? "active" : ""} aria-pressed={index === selectedDayIndex} onClick={() => { setSelectedDayIndex(index); announce(language === "zh" ? `已选择 ${day}，${date}。` : `${day}, ${date} is selected.`); }}><b>{day}</b><span>{date}</span></button>)}
             </div>
-            <p className="today-note"><span>{language === "zh" ? "今天 · 8 月 12 日，周三" : "Today · Wed, Aug 12"}</span><strong>{language === "zh" ? "发布正在进行" : "Launches are live"}</strong></p>
+            <p className="today-note"><span>{selectedDayIndex === 2 ? (language === "zh" ? `今天 · ${launchDays[selectedDayIndex][1]}，${launchDays[selectedDayIndex][0]}` : `Today · ${launchDays[selectedDayIndex][0]}, ${launchDays[selectedDayIndex][1]}`) : (language === "zh" ? `已选择 · ${launchDays[selectedDayIndex][1]}，${launchDays[selectedDayIndex][0]}` : `Selected · ${launchDays[selectedDayIndex][0]}, ${launchDays[selectedDayIndex][1]}`)}</span><strong>{selectedDayIndex === 2 ? (language === "zh" ? "发布正在进行" : "Launches are live") : (language === "zh" ? "查看当天发布" : "View day launches")}</strong></p>
             <a className="hero-cta" href="/launch">{language === "zh" ? "发布你的产品" : "Launch your product"} <ArrowRight /></a>
           </div>
           <aside className="weekly-picks" aria-labelledby="picks-title">
