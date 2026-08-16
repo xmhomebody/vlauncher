@@ -705,6 +705,34 @@ function HomePage({ language, onToggle }) {
           <a className="notes-button" href="/learn">{language === "zh" ? "浏览全部指南" : "Browse all guides"} <ArrowRight /></a>
         </section>
 
+        <section className="launch-answers" id="faq" aria-labelledby="answers-title">
+          <div className="answers-intro">
+            <p className="section-kicker">{language === "zh" ? "从发布到持续发现" : "FROM LAUNCH TO LASTING DISCOVERY"}</p>
+            <h2 id="answers-title">{language === "zh" ? "VLauncher 如何帮助独立产品被看见？" : "How does VLauncher help independent products get discovered?"}</h2>
+            <p>{language === "zh" ? "VLauncher 为 AI 智能体、Web 应用和 H5 产品提供每周发布窗口、可持续检索的产品目录，以及与早期用户直接交流的创作者社区。" : "VLauncher gives AI agents, web apps, and H5 products a focused weekly launch window, a searchable directory, and a maker community built for direct early-user feedback."}</p>
+            <ol className="launch-steps">
+              <li><strong>{language === "zh" ? "选择发布周" : "Pick a launch week"}</strong><span>{language === "zh" ? "建立清晰的产品页，让你的作品在同一周内被集中发现。" : "Create a clear product page and join a focused discovery window."}</span></li>
+              <li><strong>{language === "zh" ? "获得真实反馈" : "Meet early users"}</strong><span>{language === "zh" ? "通过投票、讨论和创作者交流，收集下一步最有用的信号。" : "Collect the next useful signal through votes, discussions, and maker conversations."}</span></li>
+              <li><strong>{language === "zh" ? "持续沉淀发现" : "Keep discovery going"}</strong><span>{language === "zh" ? "发布结束后仍会保留在产品目录、分类和增长榜单中。" : "Stay discoverable through the product directory, categories, and growth views after launch week."}</span></li>
+            </ol>
+          </div>
+          <div className="answers-side">
+            <div className="faq-list">
+              <h3>{language === "zh" ? "常见问题" : "Frequently asked questions"}</h3>
+              <details><summary>{language === "zh" ? "哪些产品适合在 VLauncher 发布？" : "What can I launch on VLauncher?"}</summary><p>{language === "zh" ? "面向独立创作者打造的 AI 智能体、Web 应用和 H5 产品，都可以获得专属发布周和公开产品页。" : "Independent AI agents, web apps, and H5 products can receive a focused weekly launch window and a public product page."}</p></details>
+              <details><summary>{language === "zh" ? "每周发布是怎样进行的？" : "How does a weekly launch work?"}</summary><p>{language === "zh" ? "选择发布周并完善产品信息；发布期间，早期用户可以发现、投票和讨论你的产品。" : "Choose a week and complete your product profile; during the launch, early users can discover, vote for, and discuss your work."}</p></details>
+              <details><summary>{language === "zh" ? "发布结束后还能被发现吗？" : "Can products be discovered after launch week?"}</summary><p>{language === "zh" ? "可以。产品会持续保留在目录、分类页和榜单中，方便新用户继续探索。" : "Yes. Products remain in the directory, category pages, and rankings so new users can keep finding them."}</p></details>
+              <details><summary>{language === "zh" ? "在哪里找到发布指南？" : "Where can I find launch guidance?"}</summary><p>{language === "zh" ? <>前往 <a href="/learn">学习中心</a>，获取发布准备、产品发现和创作者增长的实用指南。</> : <>Visit <a href="/learn">Learn</a> for practical guides on launch preparation, product discovery, and maker growth.</>}</p></details>
+            </div>
+            <aside className="trust-links" aria-label={language === "zh" ? "可信资源" : "Trusted resources"}>
+              <p className="section-kicker">{language === "zh" ? "可信资源" : "TRUSTED RESOURCES"}</p>
+              <a href="https://schema.org/Organization" target="_blank" rel="noreferrer">Schema.org <span>{language === "zh" ? "结构化数据" : "structured data"}</span><ArrowSquareOut /></a>
+              <a href="https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data" target="_blank" rel="noreferrer">Google Search Central <span>{language === "zh" ? "结构化数据指南" : "structured data guide"}</span><ArrowSquareOut /></a>
+              <a href="https://www.w3.org/WAI/" target="_blank" rel="noreferrer">W3C WAI <span>{language === "zh" ? "无障碍网页标准" : "web accessibility"}</span><ArrowSquareOut /></a>
+            </aside>
+          </div>
+        </section>
+
         <section className="bottom-cta">
           <div><p className="section-kicker">{language === "zh" ? "你的下一次发布" : "YOUR NEXT LAUNCH"}</p><h2>{language === "zh" ? "做了想被更多人发现的产品？" : "Made something you want people to find?"}</h2><p>{language === "zh" ? "给它一个专属发布周、用心的反馈，以及持续成长的起点。" : "Give it a dedicated launch week, thoughtful feedback, and a place to grow from."}</p></div>
           <a className="bottom-cta-link" href="/launch">{language === "zh" ? "免费发布" : "Launch for free"} <ArrowRight /></a>
@@ -712,7 +740,7 @@ function HomePage({ language, onToggle }) {
       </main>
 
       <footer className="site-footer">
-        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark"><VLauncherLogo /></span><span>VLauncher</span></a><p>{language === "zh" ? "独立产品与创造它们的人，每周在此相遇。" : "A weekly place for independent products and the people building them."}</p><div className="socials"><GlobeHemisphereWest /><Bell /><EnvelopeSimple /></div></div>
+        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark"><VLauncherLogo /></span><span>VLauncher</span></a><p>{language === "zh" ? "独立产品与创造它们的人，每周在此相遇。" : "A weekly place for independent products and the people building them."}</p><div className="socials"><a href="https://github.com/xmhomebody/vlauncher" target="_blank" rel="noreferrer" aria-label="VLauncher on GitHub"><GlobeHemisphereWest /></a><a href="/learn" aria-label={language === "zh" ? "浏览学习中心" : "Browse Learn"}><BookOpenText /></a><a href="#faq" aria-label={language === "zh" ? "查看常见问题" : "Read frequently asked questions"}><EnvelopeSimple /></a></div></div>
         <div><h3>{language === "zh" ? "探索" : "Explore"}</h3><a href="/products">{language === "zh" ? "产品" : "Products"}</a><a href="/weekly-launch">{language === "zh" ? "每周发布" : "Weekly Launch"}</a><a href="/#discover">{language === "zh" ? "编辑精选" : "Editor’s picks"}</a><a href="/makers">{language === "zh" ? "创作者" : "Makers"}</a></div>
         <div><h3>{language === "zh" ? "面向创作者" : "For makers"}</h3><a href="/launch">{language === "zh" ? "发布产品" : "Launch a product"}</a><a href="/learn">{language === "zh" ? "学习中心" : "Learn"}</a><a href="/makers">{language === "zh" ? "认识创作者" : "Meet makers"}</a><a href="/learn">{language === "zh" ? "发布指南" : "Launch guide"}</a></div>
         <div><h3>VLauncher</h3><a href="#top">{language === "zh" ? "关于我们" : "About us"}</a><a href="#top">{language === "zh" ? "联系我们" : "Contact"}</a><a href="#top">{language === "zh" ? "服务条款" : "Terms"}</a><a href="#top">{language === "zh" ? "隐私政策" : "Privacy"}</a></div>
@@ -1440,6 +1468,68 @@ function ProductDetail({ language, onToggle, productSlug = "firstrevenue" }) {
   );
 }
 
+const SITE_URL = "https://vlauncher-community.tly706916.chatgpt.site";
+
+function PageSeo({ language, page }) {
+  useEffect(() => {
+    const isChinese = language === "zh";
+    const copy = {
+      home: isChinese
+        ? ["VLauncher — 独立创作者的每周发布社区", "VLauncher 是面向 AI 智能体、Web 应用和 H5 产品的每周发布社区，帮助独立创作者获得早期反馈与持续发现。"]
+        : ["VLauncher — Weekly launches for independent makers", "VLauncher is a weekly launch community for AI agents, web apps, and H5 products, built for early feedback and lasting discovery."],
+      products: isChinese
+        ? ["产品目录 — VLauncher", "浏览独立创作者发布的 AI 智能体、Web 应用和 H5 产品，并按营收、访问量和发布时间探索。"]
+        : ["Product directory — VLauncher", "Browse AI agents, web apps, and H5 products from independent makers, sorted by revenue, visits, and release date."],
+      rankings: isChinese
+        ? ["产品排行榜 — VLauncher", "探索最佳产品、新品潜力、营收增长和用户增长排行。"]
+        : ["Product rankings — VLauncher", "Explore the best products, rising launches, revenue growth, and user growth rankings."],
+      weekly: isChinese
+        ? ["每周发布 — VLauncher", "查看本周与往期独立产品发布，发现每一周最受关注的作品。"]
+        : ["Weekly Launch — VLauncher", "Browse current and past independent product launches and discover each week's standouts."],
+      makers: isChinese
+        ? ["创作者社区 — VLauncher", "阅读独立创作者的实践、增长经验和真实发布故事。"]
+        : ["Makers — VLauncher", "Read independent makers' launch stories, growth lessons, and practical build notes."],
+      learn: isChinese
+        ? ["学习中心 — VLauncher", "获取独立产品发布、早期用户与持续增长的实用指南。"]
+        : ["Learn — VLauncher", "Practical guides for independent product launches, early users, and sustainable growth."],
+      launch: isChinese
+        ? ["发布产品 — VLauncher", "提交 AI 智能体、Web 应用或 H5 产品，开启你的每周发布。"]
+        : ["Launch a product — VLauncher", "Submit an AI agent, web app, or H5 product and start your weekly launch."],
+      product: isChinese
+        ? ["产品详情 — VLauncher", "查看独立产品的营收、访问量、产品洞察与创作者介绍。"]
+        : ["Product profile — VLauncher", "Explore independent product revenue, visits, product insights, and maker context."],
+    }[page] ?? ["VLauncher", "Weekly launches for independent makers."];
+    const url = `${SITE_URL}${window.location.pathname === "/" ? "/" : window.location.pathname}`;
+    const setMeta = (selector, content) => document.head.querySelector(selector)?.setAttribute("content", content);
+    document.title = copy[0];
+    setMeta('meta[name="description"]', copy[1]);
+    setMeta('meta[property="og:title"]', copy[0]);
+    setMeta('meta[property="og:description"]', copy[1]);
+    setMeta('meta[property="og:url"]', url);
+    setMeta('meta[property="og:locale"]', isChinese ? "zh_CN" : "en_US");
+    setMeta('meta[name="twitter:title"]', copy[0]);
+    setMeta('meta[name="twitter:description"]', copy[1]);
+    document.head.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+
+    const label = copy[0].replace(" — VLauncher", "");
+    const breadcrumbs = [{ "@type": "ListItem", position: 1, name: "VLauncher", item: `${SITE_URL}/` }];
+    if (page !== "home") breadcrumbs.push({ "@type": "ListItem", position: 2, name: label, item: url });
+    const pageSchema = page === "product"
+      ? { "@type": "Article", headline: copy[0], description: copy[1], mainEntityOfPage: url, inLanguage: isChinese ? "zh-CN" : "en", publisher: { "@id": `${SITE_URL}/#organization` } }
+      : { "@type": "CollectionPage", name: copy[0], description: copy[1], url, inLanguage: isChinese ? "zh-CN" : "en", isPartOf: { "@id": `${SITE_URL}/#website` } };
+    let schemaNode = document.getElementById("vlauncher-route-schema");
+    if (!schemaNode) {
+      schemaNode = document.createElement("script");
+      schemaNode.id = "vlauncher-route-schema";
+      schemaNode.type = "application/ld+json";
+      document.head.appendChild(schemaNode);
+    }
+    schemaNode.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": [{ "@type": "BreadcrumbList", itemListElement: breadcrumbs }, pageSchema] });
+  }, [language, page]);
+
+  return null;
+}
+
 export function App() {
   const [language, setLanguage] = useState(() => window.localStorage.getItem("vlauncher-language") === "zh" ? "zh" : "en");
   const toggleLanguage = () => setLanguage((current) => current === "en" ? "zh" : "en");
@@ -1450,14 +1540,17 @@ export function App() {
   }, [language]);
 
   const pageProps = { language, onToggle: toggleLanguage };
-  if (window.location.pathname.startsWith("/launch/success")) return <LaunchSuccessPage {...pageProps} />;
-  if (window.location.pathname.startsWith("/launch")) return <LaunchPage {...pageProps} />;
-  if (window.location.pathname.startsWith("/startup/cloud-notes")) return <ProductDetail {...pageProps} productSlug="cloud-notes" />;
-  if (window.location.pathname.startsWith("/startup/firstrevenue")) return <ProductDetail {...pageProps} />;
-  if (window.location.pathname.startsWith("/weekly-launch")) return <WeeklyLaunchPage {...pageProps} />;
-  if (window.location.pathname.startsWith("/products/rankings")) return <ProductRankingsPage {...pageProps} />;
-  if (window.location.pathname.startsWith("/products")) return <ProductsPage {...pageProps} />;
-  if (window.location.pathname.startsWith("/makers")) return <MakersPage {...pageProps} />;
-  if (window.location.pathname.startsWith("/learn")) return <LearnPage {...pageProps} />;
-  return <HomePage {...pageProps} />;
+  const pathname = window.location.pathname;
+  let page = "home";
+  let content = <HomePage {...pageProps} />;
+  if (pathname.startsWith("/launch/success")) { page = "launch"; content = <LaunchSuccessPage {...pageProps} />; }
+  else if (pathname.startsWith("/launch")) { page = "launch"; content = <LaunchPage {...pageProps} />; }
+  else if (pathname.startsWith("/startup/cloud-notes")) { page = "product"; content = <ProductDetail {...pageProps} productSlug="cloud-notes" />; }
+  else if (pathname.startsWith("/startup/firstrevenue")) { page = "product"; content = <ProductDetail {...pageProps} />; }
+  else if (pathname.startsWith("/weekly-launch")) { page = "weekly"; content = <WeeklyLaunchPage {...pageProps} />; }
+  else if (pathname.startsWith("/products/rankings")) { page = "rankings"; content = <ProductRankingsPage {...pageProps} />; }
+  else if (pathname.startsWith("/products")) { page = "products"; content = <ProductsPage {...pageProps} />; }
+  else if (pathname.startsWith("/makers")) { page = "makers"; content = <MakersPage {...pageProps} />; }
+  else if (pathname.startsWith("/learn")) { page = "learn"; content = <LearnPage {...pageProps} />; }
+  return <><PageSeo language={language} page={page} />{content}</>;
 }

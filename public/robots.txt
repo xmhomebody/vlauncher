@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vlauncher-community.tly706916.chatgpt.site/sitemap.xml
